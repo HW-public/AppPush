@@ -120,3 +120,4 @@ conf/*.p8
 
 # Local secrets overrides (imported via spring.config.import)
 conf/application-local.yml
+/.omc/
