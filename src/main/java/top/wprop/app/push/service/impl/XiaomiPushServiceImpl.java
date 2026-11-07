@@ -32,6 +32,7 @@ public class XiaomiPushServiceImpl implements PushService {
     @Value("${push.xiaomi.channelIdVoip}")
     private String CHANNEL_ID_VOIP;
     private final OkHttpClient httpClient = new OkHttpClient();
+
     public boolean pushMessage(MessageDTO messageDTO) throws IOException {
         log.debug("Xiaomi Push message: {}", messageDTO);
 
@@ -60,15 +61,16 @@ public class XiaomiPushServiceImpl implements PushService {
         }
 
     }
+
     private RequestBody getRequestBody(MessageDTO messageDTO) throws UnsupportedEncodingException {
         String encodedPayload = URLEncoder.encode(messageDTO.getData().toString(), StandardCharsets.UTF_8.toString());
         FormBody.Builder formBuilder = new FormBody.Builder();
-        formBuilder.add("registration_id",         messageDTO.getDeviceToken());
-        formBuilder.add("description",             messageDTO.getBody());
-        formBuilder.add("payload",                 encodedPayload);
+        formBuilder.add("registration_id", messageDTO.getDeviceToken());
+        formBuilder.add("description", messageDTO.getBody());
+        formBuilder.add("payload", encodedPayload);
         formBuilder.add("restricted_package_name", APP_package_name);
-        formBuilder.add("title",                   messageDTO.getTitle());
-        formBuilder.add("extra.notify_effect",     "1");
+        formBuilder.add("title", messageDTO.getTitle());
+        formBuilder.add("extra.notify_effect", "1");
 
         if (messageDTO.getCategory().equalsIgnoreCase("im")) {
             formBuilder.add("extra.channel_id", CHANNEL_ID_IM);

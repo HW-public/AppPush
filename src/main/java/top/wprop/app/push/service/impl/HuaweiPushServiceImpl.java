@@ -34,6 +34,7 @@ public class HuaweiPushServiceImpl implements PushService {
     private String CLIENT_SECRET;
     private final OkHttpClient client = new OkHttpClient();
     private final ConcurrentHashMap<String, String> tokenCache = new ConcurrentHashMap<>();
+
     @Override
     public boolean pushMessage(MessageDTO messageDTO) throws IOException {
         log.debug("Huawei Push message: {}", messageDTO);
@@ -60,15 +61,15 @@ public class HuaweiPushServiceImpl implements PushService {
             String code = JSON.parseObject(responseBody).getString("code");
             return SUCCESS.equals(code);
         } else {
-            log.error("Huawei Push failed: code = {}, body = {}",  response.code(), response.body().string());
+            log.error("Huawei Push failed: code = {}, body = {}", response.code(), response.body().string());
             return false;
         }
     }
 
     private String getAccessToken() throws IOException {
         RequestBody body = new FormBody.Builder()
-                .add("grant_type",   "client_credentials")
-                .add("client_id",     CLIENT_ID)
+                .add("grant_type", "client_credentials")
+                .add("client_id", CLIENT_ID)
                 .add("client_secret", CLIENT_SECRET)
                 .build();
 
@@ -104,17 +105,17 @@ public class HuaweiPushServiceImpl implements PushService {
         token.add(messageDTO.getDeviceToken());
 
         JSONObject notification = new JSONObject();
-        notification.put("title",        messageDTO.getTitle());      // 通知栏消息的标题。
-        notification.put("body",         messageDTO.getBody());       // 通知栏消息的内容。
+        notification.put("title", messageDTO.getTitle());      // 通知栏消息的标题。
+        notification.put("body", messageDTO.getBody());       // 通知栏消息的内容。
         notification.put("click_action", clickAction);
 
         JSONObject android = new JSONObject();
-        android.put("notification",  notification);
+        android.put("notification", notification);
         if (messageDTO.getCategory().equals("im")) {
             android.put("category", "IM");
         } else if (messageDTO.getCategory().equals("voip")) {
             android.put("category", "VOIP");
-        }else {
+        } else {
             log.error("Invalid category: {}", messageDTO.getCategory());
         }
 
@@ -122,30 +123,30 @@ public class HuaweiPushServiceImpl implements PushService {
         Map<String, Object> data = messageDTO.getData();
         if (!data.isEmpty()) {
             message.put("data", messageDTO.getData().toString());
-        }else {
+        } else {
             log.error("Huawei Push message data is empty.");
         }
         message.put("android", android);
-        message.put("token",   token);
+        message.put("token", token);
 
         JSONObject messageJson = new JSONObject();
         messageJson.put("validate_only", false);  // true：测试消息; false：正式消息（默认值）测试消息只做格式合法性校验，不会推送给用户设备
-        messageJson.put("message",       message);
+        messageJson.put("message", message);
 
         return messageJson.toJSONString();
     }
 
     private String getValidJwtToken() throws IOException {
         String accessToken = tokenCache.get("access_token");
-        String expiresIn   = tokenCache.get("expires_in");
+        String expiresIn = tokenCache.get("expires_in");
         if ((accessToken != null) && (expiresIn != null)) {
             long expirationTime = Long.parseLong(expiresIn);
             if (expirationTime > System.currentTimeMillis()) {
                 return accessToken;
-            }else {
+            } else {
                 log.info("Huawei Push token is expired, generate new one.");
             }
-        }else {
+        } else {
             log.info("Huawei Push token is null, generate new one.");
         }
         return getAccessToken(); // 生成新的 token 令牌

@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局异常处理器
- * 
+ *
  * @author samevillage
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler
-{
+public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler
@@ -29,8 +28,7 @@ public class GlobalExceptionHandler
      * 运行时异常
      */
     @ExceptionHandler(RuntimeException.class)
-    public AjaxResult runTimeException(RuntimeException e)
-    {
+    public AjaxResult runTimeException(RuntimeException e) {
         e.printStackTrace();
         return AjaxResult.error(e.getMessage());
     }
@@ -39,11 +37,9 @@ public class GlobalExceptionHandler
      * 业务异常
      */
     @ExceptionHandler(top.wprop.app.push.exception.CustomException.class)
-    public AjaxResult runTimeException(top.wprop.app.push.exception.CustomException e)
-    {
+    public AjaxResult runTimeException(top.wprop.app.push.exception.CustomException e) {
         e.printStackTrace();
-        if (e.getCode() == null)
-        {
+        if (e.getCode() == null) {
             return AjaxResult.error(e.getMessage());
         }
         return AjaxResult.error(e.getCode(), e.getMessage());
@@ -53,8 +49,8 @@ public class GlobalExceptionHandler
     public AjaxResult handleBindException(BindException bindException) {
         StringBuilder message = new StringBuilder();
         BindingResult bindingResult = bindException.getBindingResult();
-        if(bindingResult.hasErrors()) {
-            for(ObjectError error : bindingResult.getAllErrors()) {
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 message.append(error.getDefaultMessage()).append(", ");
             }
         }
