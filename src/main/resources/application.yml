@@ -1,0 +1,59 @@
+server:
+  port: 6668
+
+spring:
+  application:
+    name: AppPush
+  profiles:
+    # 默认环境；生产启动时用 --spring.profiles.active=prod 覆盖
+    active: dev
+  config:
+    # 本地/环境专用配置（含密钥），不提交到版本库；文件不存在时不会报错
+    import: optional:file:./conf/application-local.yml
+
+# 个性化配置（APNs 私钥路径随 profile 切换）
+local:
+  push:
+    apple:
+      dev:
+        path: ./conf/AuthKey_SN7KFQH94H.dev.p8
+      prod:
+        path: ./conf/AuthKey_SN7KFQH94H.prod.p8
+
+logging:
+  level:
+    top.wprop.app.push: debug
+
+push:
+  apple:
+    keyId: SN7KFQH94H
+    teamId: Y65UU8QBTC
+    pushUrl: https://api.sandbox.push.apple.com/3/device/
+    appPackageName: com.samevillage.xf
+    keyFilePath: ${local.push.apple.${spring.profiles.active}.path}
+
+  huawei:
+    clientId: 113655461
+    clientSecret: ${HUAWEI_CLIENT_SECRET}
+    pushUrl: https://push-api.cloud.huawei.com/v1/%s/messages:send
+    authUrl: https://oauth-login.cloud.huawei.com/oauth2/v3/token
+
+  xiaomi:
+    appSecret: ${XIAOMI_APP_SECRET}
+    pushUrl: https://api.xmpush.xiaomi.com/v2/message/regid
+    appPackageName: com.samevillage.xf
+    channelIdIm: 133670
+    channelIdVoip: 133671
+
+  oppo:
+    appKey: xxxxxxxxxxxxxxx
+    masterSecret: xxxxxxxxxxxxxxxxxxxxx
+    pushUrl: https://api.push.oppomobile.com/server/v1/message/notification/unicast
+    authUrl: https://api.push.oppomobile.com/server/v1/auth
+
+  vivo:
+    appId: xxxxxxxxx
+    appKey: xxxxxxxxxxxxxxxx
+    appSecret: xxxxxxxxxxxxxxx
+    pushUrl: https://api-push.vivo.com.cn/message/send
+    authUrl: https://api-push.vivo.com.cn/message/auth

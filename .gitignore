@@ -1,0 +1,122 @@
+###############################################################################
+# Common rules
+#
+
+# 忽略备份文件
+*~
+
+###############################################################################
+# Eclipse related rules
+#
+
+.project
+.classpath
+.settings/
+.externalToolBuilders/
+
+# Don't include anything in target directory
+target/
+
+# Compiled class
+*.class
+
+# Package Files
+*.war
+*.ear
+
+# Not include the following jars
+!NotExist-*.jar
+
+# generated files
+bin/
+gen/
+out/
+
+# Virtual machine crash logs  
+hs_err_pid* 
+.attach_pid*
+
+###############################################################################
+# Gradle related rules
+#
+
+.gradle
+/build/
+/app/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# Files for the dex VM
+*.dex
+
+# Built application files
+*.apk
+*.ap_
+
+# Local configuration file (sdk path, etc)
+/local.properties
+
+# Intellij IDEA
+/.idea/libraries
+/.idea/caches
+/.idea/codeStyles
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/gradle.xml
+/.idea/tasks.xml
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/vcs.xml
+/.idea/runConfigurations.xml
+/.idea/misc.xml
+/.idea
+
+*.iml
+
+# OSX files
+.DS_Store
+
+# Android Studio captures folder
+/captures
+
+# External native build folder generated in Android Studio
+.externalNativeBuild
+
+# Android Studio Navigation editor temp files  
+.navigation/
+
+###############################################################################
+# Others
+#
+
+# Windows thumbnail db
+Thumbs.db
+
+###############################################################################
+
+/logs
+# Maven
+target/
+
+# Local secrets
+conf/*.p8
+
+# OMC operational artifacts (keep project-scoped skills)
+/.omc/*
+!/.omc/skills/
+
+# Local runtime logs
+/logs/
+
+# IDE local settings
+*.iml
+
+# Local secrets overrides (imported via spring.config.import)
+conf/application-local.yml
