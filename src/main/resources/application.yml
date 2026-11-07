@@ -46,14 +46,14 @@ push:
     channelIdVoip: 133671
 
   oppo:
-    appKey: xxxxxxxxxxxxxxx
-    masterSecret: xxxxxxxxxxxxxxxxxxxxx
+    appKey: ${OPPO_APP_KEY}
+    masterSecret: ${OPPO_MASTER_SECRET}
     pushUrl: https://api.push.oppomobile.com/server/v1/message/notification/unicast
     authUrl: https://api.push.oppomobile.com/server/v1/auth
 
   vivo:
-    appId: xxxxxxxxx
-    appKey: xxxxxxxxxxxxxxxx
-    appSecret: xxxxxxxxxxxxxxx
+    appId: ${VIVO_APP_ID}
+    appKey: ${VIVO_APP_KEY}
+    appSecret: ${VIVO_APP_SECRET}
     pushUrl: https://api-push.vivo.com.cn/message/send
     authUrl: https://api-push.vivo.com.cn/message/auth
