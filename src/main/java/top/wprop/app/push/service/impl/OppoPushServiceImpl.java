@@ -26,14 +26,14 @@ import java.util.Map;
 @Slf4j
 @Service
 public class OppoPushServiceImpl implements PushService {
-    @Value("oppo.pushUrl")
-    private static final String PUSH_URL = "";
-    @Value("oppo.authUrl")
-    private static final String AUTH_URL = "";
-    @Value("${oppo.appKey}")
-    private static final String APP_KEY = "";
-    @Value("oppo.masterSecret")
-    private String MASTER_SECRET = "";
+    @Value("${push.oppo.pushUrl}")
+    private String PUSH_URL;
+    @Value("${push.oppo.authUrl}")
+    private String AUTH_URL;
+    @Value("${push.oppo.appKey}")
+    private String APP_KEY;
+    @Value("${push.oppo.masterSecret}")
+    private String MASTER_SECRET;
 
     private final OkHttpClient httpClient = new OkHttpClient();
 

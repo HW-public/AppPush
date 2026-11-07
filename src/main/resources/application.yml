@@ -11,14 +11,16 @@ spring:
     # 本地/环境专用配置（含密钥），不提交到版本库；文件不存在时不会报错
     import: optional:file:./conf/application-local.yml
 
-# 个性化配置（APNs 私钥路径随 profile 切换）
+# 个性化配置（APNs 私钥路径与推送地址随 profile 切换）
 local:
   push:
     apple:
       dev:
         path: ./conf/AuthKey_SN7KFQH94H.dev.p8
+        pushUrl: https://api.sandbox.push.apple.com/3/device/
       prod:
         path: ./conf/AuthKey_SN7KFQH94H.prod.p8
+        pushUrl: https://api.push.apple.com/3/device/
 
 logging:
   level:
@@ -28,8 +30,8 @@ push:
   apple:
     keyId: SN7KFQH94H
     teamId: Y65UU8QBTC
-    pushUrl: https://api.sandbox.push.apple.com/3/device/
     appPackageName: com.samevillage.xf
+    pushUrl: ${local.push.apple.${spring.profiles.active}.pushUrl}
     keyFilePath: ${local.push.apple.${spring.profiles.active}.path}
 
   huawei:
@@ -40,8 +42,8 @@ push:
 
   xiaomi:
     appSecret: ${XIAOMI_APP_SECRET}
-    pushUrl: https://api.xmpush.xiaomi.com/v2/message/regid
     appPackageName: com.samevillage.xf
+    pushUrl: https://api.xmpush.xiaomi.com/v2/message/regid
     channelIdIm: 133670
     channelIdVoip: 133671
 
